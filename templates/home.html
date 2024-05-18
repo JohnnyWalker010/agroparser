@@ -37,17 +37,62 @@
     </div>
 
     <div class="mb-4">
-        <h2>Scraper Operations</h2>
-        <hr>
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
-            <div class="col">
-                <a class="btn btn-success btn-block mb-3">Start scraper for preloaded data</a>
-            </div>
-						<div class="col">
-                <a class="btn btn-info btn-block mb-3">Import file from URL for postponed parsing (excel)</a>
-            </div>
-        </div>
-    </div>
+    <h2>Scraper Operations</h2>
+    <hr>
+			<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+				<div class="col">
+						<form id="start-scraper-form" method="post" action="{% url 'start_scraper' %}">
+								{% csrf_token %}
+								<button id="start-scraper-btn" type="button" class="btn btn-success btn-block mb-3">Start Scraper for Preloaded Data</button>
+						</form>
+				</div>
+				<div class="col">
+						<form id="stop-scraper-form" method="post" action="{% url 'stop_scraper' %}">
+								{% csrf_token %}
+								<button id="stop-scraper-btn" type="button" class="btn btn-danger btn-block mb-3">Stop Scraper</button>
+						</form>
+				</div>
+				<div class="col">
+						<a class="btn btn-info btn-block mb-3">Import File from URL for Postponed Parsing (Excel)</a>
+				</div>
+			</div>
+		</div>
+
+		<script>
+				document.addEventListener("DOMContentLoaded", function() {
+						document.getElementById("start-scraper-btn").addEventListener("click", function(e) {
+								e.preventDefault(); // Prevent default form submission
+								fetch("{% url 'start_scraper' %}", {
+										method: "POST",
+										headers: {
+												"X-CSRFToken": "{{ csrf_token }}"
+										}
+								})
+								.then(response => response.json())
+								.then(data => {
+										alert(data.message); // Show a message indicating scraper status
+										// You can update the UI or perform other actions based on the response
+								})
+								.catch(error => console.error("Error:", error));
+						});
+		
+						document.getElementById("stop-scraper-btn").addEventListener("click", function(e) {
+								e.preventDefault(); // Prevent default form submission
+								fetch("{% url 'stop_scraper' %}", {
+										method: "POST",
+										headers: {
+												"X-CSRFToken": "{{ csrf_token }}"
+										}
+								})
+								.then(response => response.json())
+								.then(data => {
+										alert(data.message); // Show a message indicating scraper status
+										// You can update the UI or perform other actions based on the response
+								})
+								.catch(error => console.error("Error:", error));
+						});
+				});
+		</script>
 
     <div class="mb-4">
         <h2>User Operations</h2>

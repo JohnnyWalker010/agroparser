@@ -1,5 +1,8 @@
+from subprocess import Popen, PIPE
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.http import HttpResponse, JsonResponse
 from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -71,3 +74,25 @@ def profile(request, username):
 def accounts_page(request):
     users = User.objects.all()
     return render(request, "registration/accounts.html", {"users": users})
+
+
+scraper_process = None
+
+
+def start_scraper(request):
+    global scraper_process
+    if scraper_process is None or scraper_process.poll() is not None:
+        scraper_process = Popen(["python", "main.py"], stdout=PIPE, stderr=PIPE)
+        return JsonResponse({"message": "Scraper started."})
+    else:
+        return JsonResponse({"message": "Scraper is already running."})
+
+
+def stop_scraper(request):
+    global scraper_process
+    if scraper_process is not None and scraper_process.poll() is None:
+        scraper_process.terminate()
+        scraper_process = None
+        return HttpResponse("Scraper stopped.")
+    else:
+        return HttpResponse("No running scraper to stop.")
