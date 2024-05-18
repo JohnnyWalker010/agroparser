@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -40,6 +41,8 @@ INSTALLED_APPS = [
     "parser",
     "rest_framework",
     "rest_framework_simplejwt",
+    "crispy_forms",
+    "crispy_bootstrap4",
 ]
 
 MIDDLEWARE = [
@@ -58,7 +61,7 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
-            BASE_DIR / "templates",
+            os.path.join(BASE_DIR, "templates"),
         ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -132,3 +135,11 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
 }
+
+LOGOUT_REDIRECT_URL = "login"
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+
+CRISPY_TEMPLATE_PACK = "bootstrap4"
+
+LOGIN_REDIRECT_URL = "/"

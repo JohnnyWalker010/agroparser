@@ -1,5 +1,5 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.shortcuts import render
 from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -7,8 +7,12 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from parser.models import JWToken
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from .forms import UserRegisterForm
 
 
+@login_required
 def home_page(request):
     context = {
         "title": "Agroparser",
@@ -42,3 +46,28 @@ class CustomTokenRefreshView(TokenRefreshView):
             except Exception as e:
                 return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         return response
+
+
+def register(request):
+    if request.method == "POST":
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get("username")
+            messages.success(request, f"User {username} created!")
+            return redirect("login")
+    else:
+        form = UserRegisterForm()
+    return render(request, "registration/registration.html", {"form": form})
+
+
+@login_required
+def profile(request, username):
+    user = get_object_or_404(User, username=username)
+    return render(request, "registration/user_profile.html", {"user": user})
+
+
+@login_required
+def accounts_page(request):
+    users = User.objects.all()
+    return render(request, "registration/accounts.html", {"users": users})
