@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from parsing_site.parser.models import Thread, Content
+
+admin.site.register(Thread)
+admin.site.register(Content)
