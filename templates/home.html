@@ -16,7 +16,8 @@
 <body>
     <div class="container vertical-buttons d-grid">
         <h1>Welcome to My Website</h1>
-        <a class="btn btn-success" href=" {% url "token_obtain_pair" %} ">JWT Token Obtain Pair</a>
+        <a class="btn btn-primary" href=" {% url "token_obtain_pair" %} ">JWT Obtain Pair</a>
+        <a class="btn btn-primary" href=" {% url "token_refresh" %} ">Refresh JWT</a>
         <a class="btn btn-success">Create new user</a>
         <a class="btn btn-info">Get available dates for download</a>
         <a class="btn btn-warning">Get Non-downloaded dates list</a>
