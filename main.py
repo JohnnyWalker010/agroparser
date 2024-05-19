@@ -8,6 +8,7 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, WebDriverException
 import os
+from datetime import datetime
 
 
 def sigterm_handler(signum, frame):
@@ -20,10 +21,17 @@ signal.signal(signal.SIGTERM, sigterm_handler)
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
+output_dir = os.path.join(script_dir, "scraped_results")
+
+os.makedirs(output_dir, exist_ok=True)
+
 file_path = os.path.join(script_dir, "links_to_download.xlsx")
 df = pd.read_excel(file_path)
 
-csv_file_path = os.path.join(script_dir, "output.csv")
+timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+csv_file_name = f"result{timestamp}.csv"
+csv_file_path = os.path.join(output_dir, csv_file_name)
+
 with open(csv_file_path, "w", newline="", encoding="utf-8") as csv_file:
     csv_writer = csv.writer(csv_file)
     csv_writer.writerow(["Title", "Price", "Availability", "Producer"])
@@ -32,7 +40,6 @@ with open(csv_file_path, "w", newline="", encoding="utf-8") as csv_file:
     driver = webdriver.Chrome(service=service)
 
     for index, row in df.iterrows():
-
         url = row["Links"]
         driver.get(url)
 
