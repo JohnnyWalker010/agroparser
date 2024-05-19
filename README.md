@@ -26,13 +26,8 @@ On Windows: `venv\Scripts\activate`
 
 `pip install -r requirements.txt`
 
-### 4. Set up the database:
 
-`python manage.py makemigrations`
-
-`python manage.py migrate`
-
-### 5. Create a superuser or use credentials of an existing one:
+### 4. Create a superuser or use credentials of an existing one:
 
 `python manage.py createsuperuser`
 
@@ -42,6 +37,6 @@ login: superuser
 
 password: superuser1
 
-### 6. Run the development server:
+### 5. Run the development server:
 
 `python manage.py runserver`
