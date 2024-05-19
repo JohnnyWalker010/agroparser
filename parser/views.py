@@ -17,6 +17,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, WebDriverException
 from selenium.webdriver.common.by import By
+from tqdm import tqdm
 
 from parser.models import JWToken
 from .forms import UserRegisterForm
@@ -112,7 +113,7 @@ def run_scraper(request):
             csv_writer = csv.writer(csv_file)
             csv_writer.writerow(["Title", "Price", "Availability", "Producer"])
 
-            for index, row in df.iterrows():
+            for index, row in tqdm(df.iterrows(), total=len(df), desc="Urls parsed"):
                 if not scraper_running:
                     break
 
@@ -157,9 +158,6 @@ def run_scraper(request):
                     producer = "Not available"
 
                 csv_writer.writerow([title, price, availability, producer])
-                print(
-                    f"Title: {title}, Price: {price}, Availability: {availability}, Producer: {producer}"
-                )
 
             print("Correctly finished work")
 
