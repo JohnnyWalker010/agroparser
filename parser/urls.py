@@ -6,7 +6,7 @@ from parser.views import (
     CustomTokenRefreshView,
     accounts_page,
     profile,
-    start_scraper,
+    run_scraper,
     stop_scraper,
 )
 
@@ -16,6 +16,6 @@ urlpatterns = [
     path("api/token/refresh/", CustomTokenRefreshView.as_view(), name="token_refresh"),
     path("accounts/", accounts_page, name="accounts"),
     path("accounts/profile/<str:username>/", profile, name="profile"),
-    path("start-scraper/", start_scraper, name="start_scraper"),
+    path("start-scraper/", run_scraper, name="start_scraper"),
     path("stop-scraper/", stop_scraper, name="stop_scraper"),
 ]
