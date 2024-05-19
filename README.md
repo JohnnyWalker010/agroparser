@@ -40,3 +40,15 @@ password: superuser1
 ### 5. Run the development server:
 
 `python manage.py runserver`
+
+## Screenshots for reference of final result and functionality:
+
+![img_1.png](img_1.png)
+
+![img_4.png](img_4.png)
+
+![img.png](img.png)
+
+![img_3.png](img_3.png)
+
+![img_2.png](img_2.png)
