@@ -113,7 +113,7 @@ def run_scraper(request):
             csv_writer = csv.writer(csv_file)
             csv_writer.writerow(["Title", "Price", "Availability", "Producer"])
 
-            for index, row in tqdm(df.iterrows(), total=len(df), desc="Urls parsed"):
+            for index, row in tqdm(df.iterrows(), total=len(df), desc="Urls parsed", colour="green"):
                 if not scraper_running:
                     break
 
